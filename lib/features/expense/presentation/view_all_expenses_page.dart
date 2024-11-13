@@ -80,7 +80,7 @@ class _ViewAllExpensesPageState extends State<ViewAllExpensesPage> {
                 imageAssetName: "assets/images/error.png",
                 errorMessage: state.message,
                 onRetry: () {
-                  debugPrint("Reload the page");
+                  context.read<ExpenseCubit>().getAllExpenses();
                 });
           } else {
             return const EmptyStateList(

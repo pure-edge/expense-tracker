@@ -1,3 +1,4 @@
+import 'package:expense_tracker/app_router.dart';
 import 'package:expense_tracker/core/services/injection_container.dart';
 import 'package:expense_tracker/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expense_tracker/features/expense/presentation/view_all_expenses_page.dart';
@@ -26,8 +27,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       themeMode: ThemeMode.light,
       theme: GlobalThemeData.lightThemeData,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: AppRouter.onGenerateRoute,
+      initialRoute: "/",
     );
   }
 }

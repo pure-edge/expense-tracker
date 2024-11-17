@@ -1,10 +1,7 @@
-import 'package:expense_tracker/core/services/injection_container.dart';
 import 'package:expense_tracker/core/widgets/empty_state_list.dart';
 import 'package:expense_tracker/core/widgets/error_state_list.dart';
 import 'package:expense_tracker/core/widgets/loading_state_shimmer_list.dart';
-import 'package:expense_tracker/features/expense/presentation/add_edit_expense_page.dart';
 import 'package:expense_tracker/features/expense/presentation/cubit/expense_cubit.dart';
-import 'package:expense_tracker/features/expense/presentation/view_expense_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,23 +48,16 @@ class _ViewAllExpensesPageState extends State<ViewAllExpensesPage> {
                     title: Text('Php ${exp.amount}'),
                     subtitle: Text(exp.description),
                     onTap: () async {
-                      final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                              create: (context) =>
-                                  serviceLocator<ExpenseCubit>(),
-                              child: ViewExpensePage(
-                                expense: exp,
-                              ),
-                            ),
-                          ));
+                      final result = await Navigator.pushNamed(
+                          context, "/view-expense",
+                          arguments: exp);
 
                       context
                           .read<ExpenseCubit>()
                           .getAllExpenses(); // refresh the page
                       if (result.runtimeType == String) {
-                        final snackbar = SnackBar(content: Text(result));
+                        final snackbar =
+                            SnackBar(content: Text(result as String));
                         ScaffoldMessenger.of(context).showSnackBar(snackbar);
                       }
                     },
@@ -93,18 +83,11 @@ class _ViewAllExpensesPageState extends State<ViewAllExpensesPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final result = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BlocProvider(
-                  create: (context) => serviceLocator<ExpenseCubit>(),
-                  child: const AddEditExpensePage(),
-                ),
-              ));
+          final result = await Navigator.pushNamed(context, "/add-expense");
 
           context.read<ExpenseCubit>().getAllExpenses(); // refresh the page
           if (result.runtimeType == String) {
-            final snackbar = SnackBar(content: Text(result));
+            final snackbar = SnackBar(content: Text(result as String));
             ScaffoldMessenger.of(context).showSnackBar(snackbar);
           }
         },

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/features/expense/domain/entities/expense.dart';
+import 'package:expense_tracker/features/expense/presentation/cubit/category_cubit.dart';
 import 'package:expense_tracker/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,13 +37,17 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
   bool _isPerforming = false;
 
   @override
+  void initState() {
+    super.initState();
+    context.read<CategoryCubit>().fetchAllCategories();
+  }
+
+  @override
   Widget build(BuildContext context) {
     String appBarTitle =
         widget.expense == null ? 'Add new expense' : 'Edit expense';
     String buttonLabel =
         widget.expense == null ? 'Add Expense' : 'Edit Expense';
-
-    List<String> categoryOptions = ['Food', 'Utility', 'Others'];
 
     final initialValues = {
       'amount': widget.expense?.amount.toString(),
@@ -97,20 +102,7 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
                   const SizedBox(
                     height: 16,
                   ),
-                  FormBuilderDropdown(
-                    name: 'category',
-                    items: categoryOptions
-                        .map((category) => DropdownMenuItem(
-                            value: category, child: Text(category)))
-                        .toList(),
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Category',
-                        hintText: 'Select category'),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
-                    ]),
-                  ),
+                  CategoryDropdown(),
                   const SizedBox(
                     height: 16,
                   ),
@@ -204,6 +196,64 @@ class _AddEditExpensePageState extends State<AddEditExpensePage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CategoryDropdown extends StatelessWidget {
+  const CategoryDropdown({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CategoryCubit, CategoryState>(
+      builder: (context, state) {
+        if (state is CategoryLoading) {
+          return const Row(
+            children: [
+              SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(),
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Text("Loading..."),
+            ],
+          );
+        } else if (state is CategoryError) {
+          return TextButton(
+            onPressed: () {
+              context.read<CategoryCubit>().fetchAllCategories();
+            },
+            child: const Text('Tap to load again'),
+          );
+        } else if (state is CategoryLoaded) {
+          return FormBuilderDropdown(
+            name: 'category',
+            items: state.categories
+                .map((category) => DropdownMenuItem(
+                    value: category.name, child: Text(category.name)))
+                .toList(),
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Category',
+                hintText: 'Select category'),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(),
+            ]),
+          );
+        } else {
+          return TextButton(
+            onPressed: () {
+              context.read<CategoryCubit>().fetchAllCategories();
+            },
+            child: const Text('Tap to load again'),
+          );
+        }
+      },
     );
   }
 }

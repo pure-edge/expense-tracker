@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      body: ErrorStateList(
-          imageAssetName: "assets/images/error.png",
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        body: ErrorStateList(
+          imageAssetName: 'assets/images/error.png',
           errorMessage:
-              "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. ",
+              'The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.',
           onRetry: () {
             debugPrint("Reload the page");
-          }),
+          },
+        ),
+      ),
     ),
-  ));
+  );
 }
 
 class ErrorStateList extends StatelessWidget {
@@ -42,7 +45,7 @@ class ErrorStateList extends StatelessWidget {
               height: 16,
             ),
             Text(
-              'Something went wrong...',
+              "Something went wrong...",
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(
@@ -59,8 +62,8 @@ class ErrorStateList extends StatelessWidget {
               onPressed: onRetry,
               child: const Text('Try Again'),
             ),
-            const Text('or'),
-            const Text('Contact Support'),
+            const Text("or"),
+            TextButton(onPressed: () {}, child: Text("Contact Support")),
           ],
         ),
       ),

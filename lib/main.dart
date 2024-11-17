@@ -19,14 +19,13 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       themeMode: ThemeMode.light,
       theme: GlobalThemeData.lightThemeData,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: "Basta"),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -46,7 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("currentIndex is at index: $_currentIndex");
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
@@ -56,15 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
             child: const ViewAllExpensesPage(),
           ),
           const Center(
-            child: Text('Insert Budget Page here'),
+            child: Text('Insert Budgets Page here'),
           ),
           const Center(
-            child: Text('Insert User Profile Page here'),
+            child: Text('Insert Profile Page here'),
           ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        // stateful widget
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
@@ -74,16 +71,16 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.money_off),
-            label: 'Expenses',
+            label: "Expenses",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.payments),
-            label: 'Budget',
+            label: "Budgets",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
-          )
+            label: "Profile",
+          ),
         ],
       ),
     );

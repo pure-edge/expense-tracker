@@ -18,7 +18,7 @@ class LoadingStateShimmerList extends StatelessWidget {
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: 7,
         itemBuilder: (context, index) {
           return ListTile(
             leading: Container(
@@ -26,10 +26,12 @@ class LoadingStateShimmerList extends StatelessWidget {
               width: 64,
               color: Colors.white,
             ),
-            title: Container(
+            title: SizedBox(
               height: 16,
               width: 100,
-              color: Colors.white,
+              child: Container(
+                color: Colors.white,
+              ),
             ),
             subtitle: Container(
               height: 8,

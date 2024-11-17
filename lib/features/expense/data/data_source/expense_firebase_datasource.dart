@@ -3,7 +3,7 @@ import 'package:expense_tracker/core/errors/exceptions.dart';
 import 'package:expense_tracker/features/expense/data/data_source/expense_remote_datasource.dart';
 import 'package:expense_tracker/features/expense/data/models/expense_model.dart';
 import 'package:expense_tracker/features/expense/domain/entities/expense.dart';
-import 'package:expense_tracker/features/expense/domain/entities/expense_summary.dart';
+import 'package:expense_tracker/features/expense/domain/entities/summary.dart';
 import 'package:expense_tracker/features/expense/domain/repositories/expense_repo.dart';
 import 'package:flutter/src/material/date.dart';
 
@@ -19,7 +19,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
       final expenseModel = ExpenseModel(
           id: expenseDocRef.id,
           amount: expense.amount,
-          category: expense.category,
+          category: expense.categoryId,
           date: expense.date,
           description: expense.description);
       await expenseDocRef.set(expenseModel.toMap());
@@ -70,7 +70,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
           .map((doc) => Expense(
                 id: doc.id,
                 amount: doc['amount'],
-                category: doc['category'],
+                categoryId: doc['category'],
                 date: DateTime.parse(doc['date']),
                 description: doc['description'],
               ))
@@ -97,7 +97,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
           .map((doc) => Expense(
                 id: doc.id,
                 amount: doc['amount'],
-                category: doc['category'],
+                categoryId: doc['category'],
                 date: DateTime.parse(doc['date']),
                 description: doc['description'],
               ))
@@ -161,7 +161,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
           .map((doc) => Expense(
                 id: doc.id,
                 amount: doc['amount'],
-                category: doc['category'],
+                categoryId: doc['category'],
                 date: DateTime.parse(doc['date']),
                 description: doc['description'],
               ))
@@ -182,7 +182,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
     final expenseModel = ExpenseModel(
         id: expense.id,
         amount: expense.amount,
-        category: expense.category,
+        category: expense.categoryId,
         date: expense.date,
         description: expense.description);
 

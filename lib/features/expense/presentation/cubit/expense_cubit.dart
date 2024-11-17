@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/expense.dart';
 import '../../domain/usecases/add_expense.dart';
@@ -28,24 +28,23 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     this._getAllExpensesUseCase,
   ) : super(ExpenseInitial());
 
-  // Method to get all expenses
-  Future<void> getAllExpenses() async {
+  // Method to fetch all expenses
+  Future<void> fetchAllExpenses() async {
     emit(ExpenseLoading());
 
     try {
       final result = await _getAllExpensesUseCase().timeout(
-        const Duration(seconds: 10),
-        onTimeout: () => throw TimeoutException("Request timed out"),
-      );
+          const Duration(seconds: 10),
+          onTimeout: () => throw TimeoutException("Request timed out"));
       result.fold(
-        (failure) => emit(ExpenseError(failure.getMessage())),
+        (failure) => emit(ExpenseError(failure.message)),
         (expenses) {
           emit(ExpenseLoaded(expenses));
         },
       );
     } on TimeoutException catch (_) {
       emit(const ExpenseError(
-          "There seems to be a problem with your Internet connection."));
+          "There seems to be a problem with your Internet connection"));
     }
   }
 
@@ -55,11 +54,10 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
     try {
       final result = await _addExpenseUseCase(expense).timeout(
-        const Duration(seconds: 10),
-        onTimeout: () => throw TimeoutException("Request timed out"),
-      );
+          const Duration(seconds: 10),
+          onTimeout: () => throw TimeoutException("Request timed out"));
       result.fold(
-        (failure) => emit(ExpenseError(failure.getMessage())),
+        (failure) => emit(ExpenseError(failure.message)),
         (_) {
           emit(ExpenseAdded());
         },
@@ -75,11 +73,10 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
     try {
       final result = await _deleteExpenseUseCase(expense).timeout(
-        const Duration(seconds: 10),
-        onTimeout: () => throw TimeoutException("Request timed out"),
-      );
+          const Duration(seconds: 10),
+          onTimeout: () => throw TimeoutException("Request timed out"));
       result.fold(
-        (failure) => emit(ExpenseError(failure.getMessage())),
+        (failure) => emit(ExpenseError(failure.message)),
         (_) {
           emit(ExpenseDeleted());
         },
@@ -95,11 +92,10 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
     try {
       final result = await _updateExpenseUseCase(expense).timeout(
-        const Duration(seconds: 10),
-        onTimeout: () => throw TimeoutException("Request timed out"),
-      );
+          const Duration(seconds: 10),
+          onTimeout: () => throw TimeoutException("Request timed out"));
       result.fold(
-        (failure) => emit(ExpenseError(failure.getMessage())),
+        (failure) => emit(ExpenseError(failure.message)),
         (_) {
           emit(ExpenseUpdated(expense));
         },

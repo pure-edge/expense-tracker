@@ -6,7 +6,7 @@ class ExpenseModel extends Expense {
   const ExpenseModel({
     required super.id,
     required super.amount,
-    required super.category,
+    required super.categoryId,
     required super.date,
     required super.description,
   });
@@ -32,7 +32,7 @@ class ExpenseModel extends Expense {
     return {
       'id': id,
       'amount': amount,
-      'category': category,
+      'category': categoryId,
       'date': date.toIso8601String(),
       'description': description,
     };

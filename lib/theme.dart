@@ -9,17 +9,16 @@ class GlobalThemeData {
   static final ThemeData lightThemeData = ThemeData(
     useMaterial3: true,
     colorScheme: colorScheme,
+    appBarTheme: AppBarTheme(
+      backgroundColor: colorScheme.primaryFixed,
+      foregroundColor: colorScheme.onPrimaryFixed,
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(colorScheme.primary),
-        foregroundColor: WidgetStatePropertyAll(colorScheme.onPrimary),
-      ),
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: colorScheme.primaryContainer,
-      foregroundColor: colorScheme.onPrimaryContainer,
-      titleTextStyle:
-          const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+          foregroundColor:
+              WidgetStatePropertyAll(colorScheme.onPrimaryContainer),
+          backgroundColor:
+              WidgetStatePropertyAll(colorScheme.primaryContainer)),
     ),
   );
 }

@@ -21,9 +21,9 @@ class ExpenseLoaded extends ExpenseState {
   List<Object> get props => [expenses];
 }
 
-class ExpenseOperationSuccess extends ExpenseState {}
-
 class ExpenseAdded extends ExpenseState {}
+
+class ExpenseDeleted extends ExpenseState {}
 
 class ExpenseUpdated extends ExpenseState {
   final Expense newExpense;
@@ -33,8 +33,6 @@ class ExpenseUpdated extends ExpenseState {
   @override
   List<Object> get props => [newExpense];
 }
-
-class ExpenseDeleted extends ExpenseState {}
 
 class ExpenseError extends ExpenseState {
   final String message;

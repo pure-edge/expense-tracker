@@ -4,7 +4,7 @@ import 'package:expense_tracker/features/expense/data/data_source/expense_remote
 import 'package:flutter/src/material/date.dart';
 import 'package:expense_tracker/core/errors/failure.dart';
 import 'package:expense_tracker/features/expense/domain/entities/expense.dart';
-import 'package:expense_tracker/features/expense/domain/entities/expense_summary.dart';
+import 'package:expense_tracker/features/expense/domain/entities/summary.dart';
 import 'package:expense_tracker/features/expense/domain/repositories/expense_repo.dart';
 
 class ExpenseRepositoryImplementation implements ExpenseRepository {

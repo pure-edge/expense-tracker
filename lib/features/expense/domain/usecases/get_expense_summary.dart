@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/errors/failure.dart';
-import '../entities/expense_summary.dart';
+import '../entities/summary.dart';
 import '../repositories/expense_repo.dart';
 
 class GetExpenseSummary {

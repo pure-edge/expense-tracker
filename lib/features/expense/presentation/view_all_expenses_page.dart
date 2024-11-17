@@ -3,6 +3,7 @@ import 'package:expense_tracker/core/widgets/empty_state_list.dart';
 import 'package:expense_tracker/core/widgets/error_state_list.dart';
 import 'package:expense_tracker/core/widgets/loading_state_shimmer_list.dart';
 import 'package:expense_tracker/features/expense/presentation/add_edit_expense_page.dart';
+import 'package:expense_tracker/features/expense/presentation/cubit/category_cubit.dart';
 import 'package:expense_tracker/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expense_tracker/features/expense/presentation/view_expense_page.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +20,14 @@ class _ViewAllExpensesPageState extends State<ViewAllExpensesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<ExpenseCubit>().getAllExpenses();
+    context.read<ExpenseCubit>().fetchAllExpenses();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Expenses'),
+        title: const Text("Expenses"),
       ),
       body: BlocBuilder<ExpenseCubit, ExpenseState>(
         builder: (context, state) {
@@ -35,8 +36,8 @@ class _ViewAllExpensesPageState extends State<ViewAllExpensesPage> {
           } else if (state is ExpenseLoaded) {
             if (state.expenses.isEmpty) {
               return const EmptyStateList(
-                imageAssetName: "assets/images/empty.png",
-                title: "Oops...There are no expenses here",
+                imageAssetName: 'assets/images/empty.png',
+                title: 'Oops...There are no expenses here',
                 description: "Tap '+' button to add a new expense",
               );
             }
@@ -44,29 +45,32 @@ class _ViewAllExpensesPageState extends State<ViewAllExpensesPage> {
             return ListView.builder(
               itemCount: state.expenses.length,
               itemBuilder: (context, index) {
-                final exp = state.expenses[index];
+                final currentExpense = state.expenses[index];
 
                 return Card(
                   child: ListTile(
-                    title: Text('Php ${exp.amount}'),
-                    subtitle: Text(exp.description),
+                    title: Text("Php ${currentExpense.amount}"),
+                    subtitle: Text(currentExpense.description),
                     onTap: () async {
                       final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                              create: (context) =>
-                                  serviceLocator<ExpenseCubit>(),
-                              child: ViewExpensePage(expense: exp),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => serviceLocator<ExpenseCubit>(),
+                            child: ViewExpensePage(
+                              expense: currentExpense,
                             ),
-                          ));
-
+                          ),
+                        ),
+                      );
                       context
                           .read<ExpenseCubit>()
-                          .getAllExpenses(); // refresh the page
+                          .fetchAllExpenses(); // refresh the page
+
                       if (result.runtimeType == String) {
-                        final snackbar = SnackBar(content: Text(result));
-                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        final snackBar =
+                            SnackBar(content: Text(result as String));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                   ),
@@ -75,15 +79,16 @@ class _ViewAllExpensesPageState extends State<ViewAllExpensesPage> {
             );
           } else if (state is ExpenseError) {
             return ErrorStateList(
-                imageAssetName: "assets/images/error.png",
-                errorMessage: state.message,
-                onRetry: () {
-                  context.read<ExpenseCubit>().getAllExpenses();
-                });
+              imageAssetName: 'assets/images/error.png',
+              errorMessage: state.message,
+              onRetry: () {
+                context.read<ExpenseCubit>().fetchAllExpenses();
+              },
+            );
           } else {
             return const EmptyStateList(
-              imageAssetName: "assets/images/empty.png",
-              title: "Oops...There are no expenses here",
+              imageAssetName: 'assets/images/empty.png',
+              title: 'Oops...There are no expenses here',
               description: "Tap '+' button to add a new expense",
             );
           }
@@ -94,16 +99,26 @@ class _ViewAllExpensesPageState extends State<ViewAllExpensesPage> {
           final result = await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BlocProvider(
-                  create: (context) => serviceLocator<ExpenseCubit>(),
+                builder: (context) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) => serviceLocator<ExpenseCubit>(),
+                    ),
+                    BlocProvider(
+                      create: (context) => serviceLocator<CategoryCubit>(),
+                    ),
+                  ],
                   child: const AddEditExpensePage(),
                 ),
               ));
 
-          context.read<ExpenseCubit>().getAllExpenses(); // refresh the page
+          context
+              .read<ExpenseCubit>()
+              .fetchAllExpenses(); // refresh the view all expenses page
+
           if (result.runtimeType == String) {
-            final snackbar = SnackBar(content: Text(result as String));
-            ScaffoldMessenger.of(context).showSnackBar(snackbar);
+            final snackBar = SnackBar(content: Text(result as String));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
         child: const Icon(Icons.add),

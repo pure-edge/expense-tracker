@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../entities/expense.dart';
-import '../entities/expense_summary.dart';
+import '../entities/summary.dart';
 
 abstract class ExpenseRepository {
   Future<Either<Failure, void>> addExpense(Expense expense);

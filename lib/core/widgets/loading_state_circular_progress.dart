@@ -21,7 +21,7 @@ class LoadingStateCircularProgress extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          Text('Loading... Please wait...'),
+          Text("Loading... Please wait..."),
         ],
       ),
     );

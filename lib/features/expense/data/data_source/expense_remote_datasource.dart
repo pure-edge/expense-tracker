@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/expense.dart';
-import '../../domain/entities/expense_summary.dart';
+import '../../domain/entities/summary.dart';
 import '../../domain/repositories/expense_repo.dart';
 
 abstract class ExpenseRemoteDataSource {

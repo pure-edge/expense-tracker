@@ -1,4 +1,6 @@
+import 'package:expense_tracker/core/services/injection_container.dart';
 import 'package:expense_tracker/features/expense/domain/entities/expense.dart';
+import 'package:expense_tracker/features/expense/presentation/add_edit_expense_page.dart';
 import 'package:expense_tracker/features/expense/presentation/cubit/expense_cubit.dart';
 import 'package:expense_tracker/features/expense/presentation/view_expense_row.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +65,14 @@ class _ViewExpensePageState extends State<ViewExpensePage> {
           actions: [
             IconButton(
                 onPressed: () async {
-                  final result = await Navigator.pushNamed(
-                    context,
-                    "/edit-expense",
-                    arguments: _currentExpense,
-                  );
-
+                  final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (context) => serviceLocator<ExpenseCubit>(),
+                          child: AddEditExpensePage(expense: _currentExpense),
+                        ),
+                      ));
                   if (result.runtimeType == Expense) {
                     setState(() {
                       _currentExpense = result as Expense;

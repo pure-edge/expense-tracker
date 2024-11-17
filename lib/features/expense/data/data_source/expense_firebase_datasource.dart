@@ -19,7 +19,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
       final expenseModel = ExpenseModel(
           id: expenseDocRef.id,
           amount: expense.amount,
-          category: expense.categoryId,
+          category: expense.category,
           date: expense.date,
           description: expense.description);
       await expenseDocRef.set(expenseModel.toMap());
@@ -70,7 +70,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
           .map((doc) => Expense(
                 id: doc.id,
                 amount: doc['amount'],
-                categoryId: doc['category'],
+                category: doc['category'],
                 date: DateTime.parse(doc['date']),
                 description: doc['description'],
               ))
@@ -97,7 +97,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
           .map((doc) => Expense(
                 id: doc.id,
                 amount: doc['amount'],
-                categoryId: doc['category'],
+                category: doc['category'],
                 date: DateTime.parse(doc['date']),
                 description: doc['description'],
               ))
@@ -161,7 +161,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
           .map((doc) => Expense(
                 id: doc.id,
                 amount: doc['amount'],
-                categoryId: doc['category'],
+                category: doc['category'],
                 date: DateTime.parse(doc['date']),
                 description: doc['description'],
               ))
@@ -182,7 +182,7 @@ class ExpenseFirebaseDatasource implements ExpenseRemoteDataSource {
     final expenseModel = ExpenseModel(
         id: expense.id,
         amount: expense.amount,
-        category: expense.categoryId,
+        category: expense.category,
         date: expense.date,
         description: expense.description);
 

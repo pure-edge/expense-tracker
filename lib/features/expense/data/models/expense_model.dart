@@ -6,7 +6,7 @@ class ExpenseModel extends Expense {
   const ExpenseModel({
     required super.id,
     required super.amount,
-    required super.categoryId,
+    required super.category,
     required super.date,
     required super.description,
   });
